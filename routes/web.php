@@ -98,6 +98,8 @@ Route::group(['middleware' => 'prevent-back-history'],function(){
 
    Route::resource('products', ProductController::class);
    Route::post('/product-status-update', [ProductController::class, 'statusUpdate']);
+   Route::get('/add-delivery-charge/{id}', [ProductController::class, 'addDeliveryCharge']);
+   Route::post('save-product-delivery-charge/{id}', [ProductController::class, 'saveProductDeliveryCharge']);
 
    //admin settings
 

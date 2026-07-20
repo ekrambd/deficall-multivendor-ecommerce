@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Productdeliverycharge;
 use App\Services\Product\ProductService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\DeliveryChargeRequest;
 use Image;
 use DataTables;
 use Illuminate\Support\Facades\Log;
@@ -63,19 +65,24 @@ class ProductController extends Controller
 
                 ->addColumn('action', function ($row) {
                     $variantUrl = url('/add-product-variant/'.$row->id);
+                    $deliveryChargeUrl = url('/add-delivery-charge/'.$row->id);
                     return '
-
+               
                         <a href="' . $variantUrl . '"
-                           class="btn btn-success btn-sm action-button add-product-variant" >
+                           class="btn btn-success btn-sm action-button add-product-variant my-2" >
                             Add/Edit Variant
                         </a>
 
-                        &nbsp;
-                        <a href="'.route('products.show',$row->id).'" class="btn btn-primary btn-sm">Edit</a>
+                      
 
-                        &nbsp;
+                        <a href="'.$deliveryChargeUrl.'" class="btn btn-info btn-sm my-2">Add Delivery Charge</a>
                         
-                        <a href="#" data-id="'.$row->id.'" class="btn btn-danger btn-sm delete-product">Delete</a>
+
+                        <a href="'.route('products.show',$row->id).'" class="btn btn-primary btn-sm my-2">Edit</a>
+
+                        
+                        
+                        <a href="#" data-id="'.$row->id.'" class="btn btn-danger btn-sm delete-product my-2">Delete</a>
                     ';
                 })->filter(function ($instance) use ($request) {
     
@@ -227,6 +234,39 @@ class ProductController extends Controller
             return response()->json([
                 'message' => 'Status updated successfully'
             ]);
+        }catch(\Exception $e){
+            return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
+        }
+    }
+
+    public function addDeliveryCharge($id)
+    {   
+        $charge = Productdeliverycharge::where('product_id',$id)->first();
+        return view('admin.products.add_delivery_charge',compact('id','charge'));
+    }
+
+    public function saveProductDeliveryCharge(DeliveryChargeRequest $request,$id)
+    {
+        try
+        {
+            Productdeliverycharge::updateOrCreate(
+            [
+                'product_id' => $id,
+            ],
+            [   
+                'vendor_id'          => user()->vendor->id,
+                'inside_base_charge' => $request->inside_base_charge,
+                'outside_base_charge' => $request->outside_base_charge,
+                'per_weight_charge' => $request->per_weight_charge,
+                'product_weight' => $request->product_weight,
+            ]
+            );
+            $notification=array(
+                'messege'=>"Successfully Updated",
+                'alert-type'=>"success",
+            );
+
+            return redirect('/products')->with($notification);
         }catch(\Exception $e){
             return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
         }

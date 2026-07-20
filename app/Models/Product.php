@@ -55,6 +55,11 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
+    public function productdeliverycharge()
+    {
+        return $this->hasOne(Productdeliverycharge::class);
+    }
+
     public function getProductImageAttribute()
     {
         $path = url('/').env('FILE_PATH_URL')."/".$this->featured_image;

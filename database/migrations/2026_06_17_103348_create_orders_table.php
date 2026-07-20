@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('user_country')->nullabe();
             $table->string('user_zipcode')->nullable();
             $table->enum('order_type', ['direct_order', 'authetic_order']);
+            $table->string('delivery_charge')->nullable();
             $table->timestamps();
         });
     }

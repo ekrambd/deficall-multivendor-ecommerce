@@ -12,7 +12,7 @@ class Order extends Model
 {
     use HasFactory; 
 
-    protected $appends = ['status','current_symbol','weight_price','place_type','delivery_charge','order_status'];
+    protected $appends = ['status','current_symbol','weight_price','place_type','order_status'];
 
     protected $fillable = [
         'user_id',
@@ -31,6 +31,7 @@ class Order extends Model
         'user_city',
         'user_country',
         'user_zipcode',
+        'delivery_charge',
         'order_type'
     ];
 
@@ -134,31 +135,6 @@ class Order extends Model
         
     // }
 
-    public function getDeliveryChargeAttribute()
-    {
-        $type = OrderDetail::where('order_id', $this->id)
-            ->where('user_id', user()->id)
-            ->pluck('place_type')
-            ->unique()
-            ->first();
 
-        if (!$type) {
-            return 0;
-        }
-
-        $charge = DeliveryChargeSetting::where('user_id', user()->id)->first();
-
-        if (!$charge) {
-            return 0;
-        }
-
-        if ($type == 'inside') {
-
-            return ($this->total * $charge->inside_city_charge) / 100;
-
-        }
-
-        return ($this->total * $charge->outside_city_charge) / 100;
-    }
 
 }

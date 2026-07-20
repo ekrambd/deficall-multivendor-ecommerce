@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('cart_session_id');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete()->nullable();
             $table->foreignId('variant_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->integer('vendor_id');
             $table->string('cart_price');
             $table->string('cart_qty');
             $table->string('currency')->nullable();

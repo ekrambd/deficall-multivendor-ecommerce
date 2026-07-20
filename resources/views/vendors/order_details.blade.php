@@ -376,15 +376,15 @@
 
                                         <option value="" selected="" disabled="">Select Delivery Type</option>
 
-                                        <option value="inside" <?php if($order->place_type == 'inside'){echo "selected";} ?>>Inside City</option>
+                                        <option value="inside" selected="">Inside City</option>
 
-                                        <option value="outside" <?php if($order->place_type == 'outside'){echo "selected";} ?>>Outside City</option>
+                                        {{-- <option value="outside">Outside City</option> --}}
 
                                     </select>
 
                                   </div>
 
-                                  <div class="form-group">
+                                  <div class="form-group d-none">
 
                                     <button type="submit" class="btn btn-success">Change Place Type</button>
 
@@ -420,15 +420,6 @@
 
                                 </tr>
 
-                                <tr>
-
-                                    <th>Weight Charge</th>
-
-                                    <td>
-                                        {{$order->current_symbol}} <span id="per_weight_charge">{{$order->weight_price}}</span>
-                                    </td>
-
-                                </tr>
 
                                 <tr>
 
@@ -438,7 +429,9 @@
 
                                         <strong>
 
-                                            {{$order->current_symbol}} <span id="final_total">{{ number_format($grandTotal,2,'.','')+$order->weight_price+$order->delivery_charge }}</span>
+                                            {{-- {{$order->current_symbol}} <span id="final_total">{{ number_format($grandTotal,2,'.','')+$order->delivery_charge }}</span> --}}
+
+                                            {{$order->current_symbol}} <span id="grand_total">{{ number_format($grandTotal,2,'.','') }}</span>
 
                                         </strong>
 
@@ -505,63 +498,63 @@
        });
 
 
-       $(document).on('change', '#delivery_type', function () {
+       // $(document).on('change', '#delivery_type', function () {
 
-            let grandTotal = parseFloat("{{ $grandTotal }}");
+       //      let grandTotal = parseFloat("{{ $grandTotal }}");
 
-            let insideCharge = parseFloat("{{ $deliveryCharge->inside_city_charge ?? 0 }}");
+       //      let insideCharge = parseFloat("{{ $deliveryCharge->inside_city_charge ?? 0 }}");
 
-            let outsideCharge = parseFloat("{{ $deliveryCharge->outside_city_charge ?? 0 }}");
+       //      let outsideCharge = parseFloat("{{ $deliveryCharge->outside_city_charge ?? 0 }}");
 
-            let charge = 0;
+       //      let charge = 0;
 
-            if ($(this).val() == 'inside') {
+       //      if ($(this).val() == 'inside') {
 
-                charge = (grandTotal * insideCharge) / 100;
+       //          charge = (grandTotal * insideCharge) / 100;
 
-            } else if ($(this).val() == 'outside') {
+       //      } else if ($(this).val() == 'outside') {
 
-                charge = (grandTotal * outsideCharge) / 100;
+       //          charge = (grandTotal * outsideCharge) / 100;
 
-            }
+       //      }
 
-            finalTotal=grandTotal + charge;
+       //      finalTotal=grandTotal + charge;
 
-            $('#delivery_charge').text(charge.toFixed(2));
+       //      $('#delivery_charge').text(charge.toFixed(2));
 
-            $('#final_total').text(finalTotal.toFixed(2));
+       //      $('#final_total').text(finalTotal.toFixed(2));
 
-        });
+       //  });
 
-       //changeDeliveryType
+       // //changeDeliveryType
 
-       $(document).on('submit','#changeDeliveryType',function(e){
-          e.preventDefault();
-          if(confirm('Are you sure?'))
-          {   
-              let order_id = "{{$order->id}}";
-              let value = $('#delivery_type').val();
-              let orderTotal = finalTotal;
+       // $(document).on('submit','#changeDeliveryType',function(e){
+       //    e.preventDefault();
+       //    if(confirm('Are you sure?'))
+       //    {   
+       //        let order_id = "{{$order->id}}";
+       //        let value = $('#delivery_type').val();
+       //        let orderTotal = finalTotal;
 
-              $.ajax({
+       //        $.ajax({
 
-                url: "{{url('/edit-order-place-type')}}",
+       //          url: "{{url('/edit-order-place-type')}}",
 
-                     type:"POST",
-                     data:{'order_id':order_id, 'place_type':value, 'order_total':orderTotal},
-                     dataType:"json",
-                     success:function(data) {
+       //               type:"POST",
+       //               data:{'order_id':order_id, 'place_type':value, 'order_total':orderTotal},
+       //               dataType:"json",
+       //               success:function(data) {
 
-                        toastr.success(data.message);
+       //                  toastr.success(data.message);
 
-                        window.location.reload();
+       //                  window.location.reload();
 
-                },
+       //          },
                                 
-            });
-          }   
+       //      });
+       //    }   
           
-       }); 
+       // }); 
 
 
 

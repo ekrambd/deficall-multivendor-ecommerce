@@ -48,6 +48,7 @@ class CartController extends Controller
 	            $cart->product_id = $request->product_id;
 	            $cart->cart_qty = 1;
 	            $cart->cart_price = $price;
+	            $cart->vendor_id = $product->user->vendor->id;
 	            $cart->currency = Session::get('currency', 'USD');
 	            $cart->unit_total = $price;
 
@@ -304,6 +305,7 @@ class CartController extends Controller
 	                    'cart_price'       => $price,
 	                    'cart_qty'         => $qty,
 	                    'currency'         => Session::get('currency', 'USD'),
+	                    'vendor_id'        => $product->user->vendor->id,
 	                    'unit_total'       => $price * $qty,
 
 	                ]);
@@ -347,6 +349,7 @@ class CartController extends Controller
 	                'cart_price'      => $price,
 	                'cart_qty'        => $qty,
 	                'currency'        => Session::get('currency', 'USD'),
+	                'vendor_id'       => $product->user->vendor->id,
 	                'unit_total'      => $price * $qty,
 
 	            ]);

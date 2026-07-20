@@ -36,7 +36,7 @@ if($getCurrency == 'usd_rate'){
                 <div class="container">
                     <form action="{{ url('/save-order') }}" method="POST" class="checkout-form">
 			         @csrf
-
+			         <input type="hidden" name="delivery_charge" value="{{$delivery_charge}}"/>
 			    <div class="row mb-9">
 
 			        <!-- Billing -->
@@ -165,7 +165,7 @@ if($getCurrency == 'usd_rate'){
 			                                    <b>Delivery Charge</b>
 			                                </td>
 			                                <td>
-			                                    <b>{{$currency}} {{$delivery_charge}} (+{{$charge->inside_city_charge}}%)</b>
+			                                    <b>{{$currency}} {{$delivery_charge}}</b>
 			                                </td>
 			                            </tr>
 

@@ -197,7 +197,9 @@ class VendorOrderController extends Controller
     public function vendorOrderDetails($id)
 	{
 	    $order = Order::with('user')->findOrFail($id);
-	    $deliveryCharge = DeliveryChargeSetting::where('user_id', user()->id)->first();
+	    // return $order;
+	    $deliveryCharge = $order->delivery_charge;
+	    //return $deliveryCharge;
 	    $products = Product::with('unit')->join('order_details', 'products.id', '=', 'order_details.product_id')
 	        ->select(
 	            'order_details.id',
@@ -218,6 +220,7 @@ class VendorOrderController extends Controller
 	            'products.featured_image'
 	        )
 	        ->where('order_details.order_id', $id)
+	        ->where('products.user_id',user()->id)
 	        ->groupBy('products.id')
 	        ->get()
 	        ->transform(function ($product) {

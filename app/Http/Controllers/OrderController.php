@@ -60,6 +60,7 @@ class OrderController extends Controller
                 'user_city'         => $request->user_city,
                 'user_country'      => $request->user_country,
                 'user_zipcode'      => $request->user_zipcode,
+                'delivery_charge'   => $request->delivery_charge,
                 'order_type'        => auth()->check()
                                         ? 'authetic_order'
                                         : 'direct_order',
