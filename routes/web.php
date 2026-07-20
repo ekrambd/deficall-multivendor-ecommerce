@@ -35,7 +35,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-
+//
 Route::get('/', [IndexController::class, 'indexPage'])->name('home');
 
 Route::get('/vendor-signup', [VendorController::class, 'vendorSignup']);
