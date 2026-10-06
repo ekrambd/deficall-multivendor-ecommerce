@@ -19,7 +19,7 @@ class Slider extends Model
 
     public function getSliderImageAttribute()
     {
-        $path = url('/').env('FILE_PATH_URL')."/uploads/sliders/".$this->image;
+        $path = env('FILE_PATH_URL')."/uploads/sliders/".$this->image;
         return $path;
     }
 
