@@ -31,7 +31,7 @@ class Category extends Model
 
     public function getCategoryImageAttribute()
     {
-        $path = url('/').env('FILE_PATH_URL')."/uploads/categories/".$this->image;
+        $path = env('FILE_PATH_URL')."/uploads/categories/".$this->image;
         return $path;
     }
 }
