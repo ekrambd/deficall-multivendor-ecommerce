@@ -884,7 +884,7 @@ class ApiController extends Controller
         try
         {
             //$categories = Category::where('status','Active')->latest()->take(10)->get();
-            $product = Product::with('category','unit','productVariants.variant','user')->where('slug',$slug)->first();
+            $product = Product::with('category','unit','productVariants.variant','user')->where('id',$id)->first();
             $relatedProducts = Product::where('category_id',$product->category_id)->where('id','!=',$product->id)->take(12)->get();
 
             //$cartCount = Cart::where('cart_session_id',Session::get('cart_session_id'))->count();
