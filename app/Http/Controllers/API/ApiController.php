@@ -913,7 +913,7 @@ class ApiController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [
-                'search' => 'required|string',
+                'search' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
@@ -924,7 +924,14 @@ class ApiController extends Controller
                 ], 422);  
             }
 
-            $products = Product::where('products.product_name', 'LIKE', "%{$request->search}%")->where('status','Active')->latest()->paginate(10);
+            $query = Product::query();
+
+            if($request->has('search'))
+            {
+                $query->where('products.product_name', 'LIKE', "%{$request->search}%");
+            }
+
+            $products = $query->where('status','Active')->latest()->paginate(10);
 
             return response()->json($products);
 
