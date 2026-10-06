@@ -14,7 +14,7 @@ use App\Http\Controllers\API\ApiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//changes
 Route::middleware(['throttle:60,1'])->group(function () {
 
 	//front part api's
