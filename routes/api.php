@@ -26,6 +26,7 @@ Route::middleware(['throttle:60,1'])->group(function () {
 	Route::get('/category-details/{id}', [ApiController::class, 'categoryDetails']);
 	Route::get('/subcategory-details/{id}', [ApiController::class, 'subcategoryDetails']);
 	Route::get('/product-details/{id}', [ApiController::class, 'productDetails']);
+    //Route::post('/vendors', [ApiController::class, 'vendors']);
 	Route::get('/shop', [ApiController::class, 'shop']);
 
 	//Route::get('/subcategories', [ApiController::class, 'subcategories']);

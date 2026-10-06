@@ -926,7 +926,14 @@ class ApiController extends Controller
                 }
             }
 
-            $products = $query->with('user','category')->where('status','Active')->latest()->paginate($per_page);
+            if($request->has('user_id'))
+            {
+                $query->where('user_id',$request->user_id);
+            }    
+
+            $products = $query->with('category','unit','productVariants.variant','user.vendor')->where('status','Active')->latest()->paginate($per_page);
+
+            return response()->json($products);
             
         }catch(\Exception $e){
             return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
