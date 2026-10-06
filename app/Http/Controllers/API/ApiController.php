@@ -908,6 +908,31 @@ class ApiController extends Controller
         }
     }
 
+    public function searchProduct(Request $request)
+    {
+        try
+        {
+            $validator = Validator::make($request->all(), [
+                'search' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false, 
+                    'message' => 'Please fill all requirement fields', 
+                    'data' => $validator->errors()
+                ], 422);  
+            }
+
+            $products = Product::where('products.product_name', 'LIKE', "%{$request->search}%")->where('status','Active')->latest()->paginate(10);
+
+            return response()->json($products);
+
+        }catch(\Exception $e){
+            return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
+        }
+    }
+
     public function shop(Request $request)
     {
         try
