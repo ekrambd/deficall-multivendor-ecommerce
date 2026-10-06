@@ -18,6 +18,7 @@ use App\Services\Product\ProductService;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Services\Variant\VariantService;
+use App\Models\Slider;
 
 class ApiController extends Controller
 {   
@@ -27,6 +28,17 @@ class ApiController extends Controller
         protected VariantService $variantService
     ) {
         //$this->middleware('auth_check');
+    }
+
+    public function sliders()
+    {
+        try
+        {
+            $sliders = Slider::where('status','Active')->get();
+            return response()->json(['status'=>count($sliders) > 0, 'data'=>$sliders]);
+        }catch(\Exception $e){
+            return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
+        }
     }
 
     public function userSignup(Request $request)
