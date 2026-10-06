@@ -759,7 +759,7 @@ class ApiController extends Controller
                     ->take(12)
                     ->get();
 
-            return response()->json(['status'=>count($data) > 0, 'data'=>$categories]);
+            return response()->json(['status'=>count($categories) > 0, 'data'=>$categories]);
 
         }catch(\Exception $e){
             return response()->json(['status'=>false, 'code'=>$e->getCode(), 'message'=>$e->getMessage()],500);
